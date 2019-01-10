@@ -7,10 +7,12 @@ import Persons from '../components/Persons/Persons';
 import ValidationComponent from '../components/Assignment/ValidationComponent';
 import CharComponent from '../components/Assignment/CharComponent';
 
-import {generateJSONLD} from 'jsonLDPOC';
+import {generateJSONLD} from 'seo-schema';
 import SchemaGenerator from '../components/SeoSchema/SeoSchema';
 
 import Cockpit from '../components/Cockpit/Cockpit';
+
+import { Helmet } from "react-helmet";
 
 // import Radium, {StyleRoot} from 'radium';
 
@@ -53,8 +55,6 @@ class App extends Component {
       "url": "https://www.realtor.com"
   }
   ];
-
-  console.log("generateJsonLD", generateJSONLD);
   
   generateJSONLD("homePage", dataObject)
   .then((result)=> {
@@ -169,6 +169,11 @@ class App extends Component {
       // If we are using the radium module
       // <StyleRoot>
         <div className={classes.App}>
+          <Helmet>
+            <script type="application/ld+json">
+              {JSON.stringify(this.state.jsonLDData)}
+            </script>
+          </Helmet>
           <SchemaGenerator jsonLDData={this.state.jsonLDData}/>
           <Cockpit
             person={this.state.person}
